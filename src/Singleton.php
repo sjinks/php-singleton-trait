@@ -4,7 +4,7 @@ namespace WildWolf\Utils;
 
 trait Singleton
 {
-    /** @var self $instance */
+    /** @var self|null */
     public static $instance = null;
 
     public static function instance(): self
