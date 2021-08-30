@@ -7,6 +7,9 @@ trait Singleton
     /** @var self|null */
     public static $instance = null;
 
+    /**
+     * @return static
+     */
     public static function instance(): self
     {
         if (self::$instance === null) {
