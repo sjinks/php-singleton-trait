@@ -9,8 +9,9 @@ trait Singleton
 
     /**
      * @return static
+     * @psalm-return self
      */
-    public static function instance(): self
+    final public static function instance(): self
     {
         if (self::$instance === null) {
             self::$instance = new self();
