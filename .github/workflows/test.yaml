@@ -3,10 +3,11 @@ name: CI
 on:
   push:
 
+permissions:
+  contents: read
+
 jobs:
   build:
-    permissions:
-      contents: read
     name: Unit Tests
     runs-on: ubuntu-latest
     strategy:
