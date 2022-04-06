@@ -4,10 +4,11 @@ on:
   push:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   codestyle:
-    permissions:
-      contents: read
     name: PHP Code Sniffer
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
