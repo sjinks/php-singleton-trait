@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: CI
 
 on:
@@ -14,9 +15,10 @@ jobs:
       fail-fast: true
       matrix:
         php:
-          - "7.3"
           - "7.4"
           - "8.0"
+          - "8.1"
+          - "8.2"
     steps:
       - name: Check out source code
         uses: actions/checkout@v3
@@ -26,25 +28,8 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
 
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Validate composer.json and composer.lock
-        run: composer validate
-
-      - name: Cache Composer packages
-        uses: actions/cache@v3.2.4
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-php-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-            ${{ runner.os }}-php-${{ matrix.php }}
-            ${{ runner.os }}-php-
-
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-interaction
+        uses: ramsey/composer-install@83af392bf5f031813d25e6fe4cd626cdba9a2df6 # 2.2.0
 
       - name: Run tests
         run: composer test

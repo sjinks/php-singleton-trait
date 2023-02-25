@@ -14,16 +14,20 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
     steps:
       - name: Check out source code
-        uses: actions/checkout@v3
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
 
       - name: Set up PHP
-        uses: shivammathur/setup-php@2.24.0
+        uses: shivammathur/setup-php@d30ad8b1843ace22e6698ab99bbafaa747b6bd0d # 2.24.0
         with:
-          php-version: "7.4"
-          tools: squizlabs/php_codesniffer
+          coverage: none
+        env:
+          fail-fast: 'true'
+
+      - name: Install dependencies
+        uses: ramsey/composer-install@83af392bf5f031813d25e6fe4cd626cdba9a2df6 # 2.2.0
 
       - name: Add error matcher
         run: echo "::add-matcher::$(pwd)/.github/checkstyle-problem-matcher.json"
 
       - name: Run style check
-        run: phpcs --report=checkstyle
+        run: composer phpcs -- --report=checkstyle
